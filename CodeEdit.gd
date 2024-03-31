@@ -7,7 +7,8 @@ var colors = {
 	"type": to_color("#7AA89F"),
 	"punctuation": to_color("#9CABCA"),
 	"function": to_color("#7E9CD8"),
-	"member": to_color("#E6C384")
+	"member": to_color("#E6C384"),
+	"error": to_color("#E82424")
 }
 var keywords = {
 	"func": colors["keyword"],
