@@ -1,13 +1,12 @@
 extends Control
 
-var app_name = "Tronchaditor"
-var current_file = "Untitled"
-var edited: bool = false
+var app_name := "Tronchaditor"
+var current_file := "Untitled"
+var edited := false
 
 func _ready():
-	
 	get_tree().set_auto_accept_quit(false)
-	DisplayServer.window_set_title(app_name + " - " + current_file)
+	update_window_title()
 	
 	$MenuButtonFile.get_popup().add_item("New File")
 	$MenuButtonFile.get_popup().add_item("Open File")
@@ -23,7 +22,7 @@ func _ready():
 func update_window_title():
 	DisplayServer.window_set_title(app_name + " - " + current_file)
 
-func new_File():
+func new_file():
 	current_file = "Untitled"
 	update_window_title()
 	$CodeEdit.text = ""
@@ -31,11 +30,11 @@ func new_File():
 func _on_File_pressed(id):
 	var item_name = $MenuButtonFile.get_popup().get_item_text(id)
 	if item_name == "New File":
-		new_File()
+		new_file()
 	elif item_name == "Open File":
 		$OpenFileDialog.popup()
 	elif item_name == "Save":
-		save_file()
+		save_file(current_file)
 	elif item_name == "Save as":
 		$SaveFileDialog.popup()
 	elif item_name == "Quit":
@@ -50,9 +49,6 @@ func _on_Help_pressed(id):
 	elif item_name == "About":
 		$AcceptDialog.popup()
 
-func _process(delta):
-	pass
-
 func _on_open_file_dialog_file_selected(path):
 	var f = FileAccess.open(path, FileAccess.READ)
 	$CodeEdit.text = f.get_as_text()
@@ -60,18 +56,11 @@ func _on_open_file_dialog_file_selected(path):
 	current_file = path
 	update_window_title()
 
-# TODO: refactor this
 func _on_save_file_dialog_file_selected(path):
-	var f = FileAccess.open(path, FileAccess.WRITE)
-	f.store_string($CodeEdit.text)
-	f.close()
-	edited = false
-	current_file = path
-	update_window_title()
+	save_file(path);
 
-func save_file():
+func save_file(path: String) -> void:
 	clear_lines()
-	var path = current_file
 	if path == "Untitled":
 		$SaveFileDialog.popup()
 	else:
@@ -108,7 +97,7 @@ func clear_lines():
 		$CodeEdit.set_line_background_color(x, Color(0,0,0,0))
 
 func _on_button_pressed():
-	save_file()
+	save_file(current_file)
 	var args = ["-file", current_file, "-json-output"]
 	var output = []
 	# NOTE: this piece of shit will not work unless minigo if found on the system path
