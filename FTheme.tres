@@ -1,8 +1,19 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b56nihqwkma5t"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b56nihqwkma5t"]
+
+[ext_resource type="FontFile" uid="uid://ds8ekaib1prhm" path="res://FiraCodeNerdFont-Regular.ttf" id="1_ka4vi"]
 
 [sub_resource type="SystemFont" id="SystemFont_h18xc"]
 font_names = PackedStringArray("Monospace")
+multichannel_signed_distance_field = true
 
 [resource]
 default_font = SubResource("SystemFont_h18xc")
 CodeEdit/colors/background_color = Color(0.121569, 0.121569, 0.156863, 1)
+CodeEdit/colors/current_line_color = Color(0.211765, 0.211765, 0.27451, 0.8)
+CodeEdit/colors/font_color = Color(0.862745, 0.843137, 0.729412, 1)
+CodeEdit/colors/selection_color = Color(0.133333, 0.196078, 0.286275, 1)
+CodeEdit/font_sizes/font_size = 36
+CodeEdit/fonts/font = ExtResource("1_ka4vi")
+Label/colors/font_color = Color(0.909804, 0.141176, 0.141176, 1)
+Label/font_sizes/font_size = 18
+Label/fonts/font = SubResource("SystemFont_h18xc")
