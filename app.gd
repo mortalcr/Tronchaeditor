@@ -3,7 +3,7 @@ extends Control
 var app_name = "Tronchaditor"
 var current_file = "Untitled"
 var edited: bool = false
-#JSON.parse_string(outputest)
+
 func _ready():
 	
 	get_tree().set_auto_accept_quit(false)
@@ -54,14 +54,15 @@ func _process(delta):
 	pass
 
 func _on_open_file_dialog_file_selected(path):
-	var f = FileAccess.open(path,1)
+	var f = FileAccess.open(path, FileAccess.READ)
 	$CodeEdit.text = f.get_as_text()
 	f.close()
 	current_file = path
 	update_window_title()
 
+# TODO: refactor this
 func _on_save_file_dialog_file_selected(path):
-	var f = FileAccess.open(path,2)
+	var f = FileAccess.open(path, FileAccess.WRITE)
 	f.store_string($CodeEdit.text)
 	f.close()
 	edited = false
@@ -74,9 +75,10 @@ func save_file():
 	if path == "Untitled":
 		$SaveFileDialog.popup()
 	else:
-		var f = FileAccess.open(path,2)
+		var f = FileAccess.open(path, FileAccess.WRITE)
 		f.store_string($CodeEdit.text)
 		f.close()
+		edited = false
 		current_file = path
 		update_window_title()
 
@@ -109,14 +111,12 @@ func _on_button_pressed():
 	save_file()
 	var args = ["-file", current_file, "-json-output"]
 	var output = []
-	var status = OS.execute("C:\\Users\\Dgpn2\\Documents\\minigo\\minigo.exe", PackedStringArray(args), output, true)
-	print(output)
+	# NOTE: this piece of shit will not work unless minigo if found on the system path
+	var status = OS.execute("minigo", PackedStringArray(args), output, true)
 	clear_lines()
 	if status != 0:
-		
 		var error_data = JSON.parse_string(output[0])
 		for error in error_data:
 			$CodeEdit.set_line_background_color(error.line -1 ,$CodeEdit.colors.error)
-		
 	else:
 		print(output)
