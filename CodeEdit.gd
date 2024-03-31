@@ -8,7 +8,8 @@ var colors = {
 	"punctuation": to_color("#9CABCA"),
 	"function": to_color("#7E9CD8"),
 	"member": to_color("#E6C384"),
-	"error": to_color("#E82424")
+	"error": to_color("#E82424"),
+	"number": to_color("#D27E99"),
 }
 var keywords = {
 	"func": colors["keyword"],
@@ -73,7 +74,7 @@ func to_color(color: String) -> Color:
 
 func _ready():
 	var code_highlighter: CodeHighlighter = CodeHighlighter.new()
-	code_highlighter.number_color = to_color("#D27E99")
+	code_highlighter.number_color = colors.number
 	code_highlighter.function_color = colors.function
 	syntax_highlighter = code_highlighter
 	code_highlighter.symbol_color = colors.punctuation
@@ -81,6 +82,3 @@ func _ready():
 		code_highlighter.add_keyword_color(keyword,keywords[keyword])
 	for region in regions:
 		code_highlighter.add_color_region(region.start,region.end, region.color, region.inline)
-
-func _process(delta):
-	pass
