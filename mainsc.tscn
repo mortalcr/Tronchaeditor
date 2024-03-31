@@ -1,0 +1,115 @@
+[gd_scene load_steps=7 format=3 uid="uid://bdsmabfqhqgdx"]
+
+[ext_resource type="Theme" uid="uid://b56nihqwkma5t" path="res://FTheme.tres" id="1_chper"]
+[ext_resource type="Script" path="res://app.gd" id="1_ncsvl"]
+[ext_resource type="Script" path="res://CodeEdit.gd" id="3_v67kt"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_1k7l3"]
+
+[sub_resource type="SystemFont" id="SystemFont_mgw81"]
+font_names = PackedStringArray("Monospace")
+
+[sub_resource type="Theme" id="Theme_id1ru"]
+CodeEdit/fonts/font = SubResource("SystemFont_mgw81")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ncsvl")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0862745, 0.0862745, 0.113725, 1)
+
+[node name="CodeEdit" type="CodeEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 40.0
+offset_right = -6.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_chper")
+highlight_all_occurrences = true
+highlight_current_line = true
+gutters_draw_line_numbers = true
+script = ExtResource("3_v67kt")
+
+[node name="OpenFileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+position = Vector2i(50, 70)
+size = Vector2i(500, 500)
+ok_button_text = "Abrir"
+file_mode = 0
+access = 2
+
+[node name="SaveFileDialog" type="FileDialog" parent="."]
+position = Vector2i(50, 70)
+size = Vector2i(500, 500)
+ok_button_text = "Guardar"
+access = 2
+
+[node name="MenuButtonFile" type="MenuButton" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 45.0
+offset_bottom = 31.0
+button_group = SubResource("ButtonGroup_1k7l3")
+text = "File"
+
+[node name="MenuButtonHelp" type="MenuButton" parent="."]
+layout_mode = 0
+offset_left = 45.0
+offset_right = 89.0
+offset_bottom = 31.0
+text = "Help"
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+title = "About"
+position = Vector2i(250, 200)
+size = Vector2i(600, 236)
+dialog_text = "Tronchaditor is a development environment 
+designed specifically for Mini Go Programming Language, 
+a programming language inspired by Golang but optimized 
+for more specific and agile tasks. With Tronchaditor, 
+developers can enjoy a smooth and efficient coding experience, 
+thanks to its intuitive features and seamless integration with the 
+unique functionalities of Mini Go Programming Language."
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -41.0
+offset_top = 5.0
+offset_right = -9.0
+offset_bottom = 36.0
+grow_horizontal = 0
+theme = SubResource("Theme_id1ru")
+text = "▶"
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+initial_position = 2
+size = Vector2i(485, 100)
+dialog_text = "No has guardado el archivo, seguro que quieres continuar?"
+
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
+[connection signal="text_changed" from="CodeEdit" to="." method="_on_code_edit_text_changed"]
+[connection signal="file_selected" from="OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]
+[connection signal="file_selected" from="SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="close_requested" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_close_requested"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]

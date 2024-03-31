@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b56nihqwkma5t"]
+
+[sub_resource type="SystemFont" id="SystemFont_h18xc"]
+font_names = PackedStringArray("Monospace")
+
+[resource]
+default_font = SubResource("SystemFont_h18xc")
+CodeEdit/colors/background_color = Color(0.121569, 0.121569, 0.156863, 1)
