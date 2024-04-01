@@ -27,7 +27,7 @@ To use TronchaEditor for editing MiniGo code, follow these steps:
 
 Download and install TronchaEditor from the releases page.
 
-Add the MiniGo compiler's directory to your system's PATH environment variable. This step is necessary for TronchaEditor to locate the MiniGo compiler and provide code completion and error checking.
+Add the [MiniGo compiler's](https://github.com/zSnails/minigo) directory to your system's PATH environment variable. This step is necessary for TronchaEditor to locate the MiniGo compiler and provide code completion and error checking.
 
 For example, if MiniGo is installed in /path/to/minigo, you would add /path/to/minigo to your PATH environment variable. The exact steps to do this vary depending on your operating system:
 
