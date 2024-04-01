@@ -22,7 +22,7 @@ func _ready():
 	$MenuButtonHelp.get_popup().id_pressed.connect(_on_Help_pressed)
 
 func update_window_title():
-	DisplayServer.window_set_title(app_name + " - " + current_file)
+	DisplayServer.window_set_title(app_name + " - " + current_file.get_file())
 
 func new_file():
 	current_file = "Untitled"
