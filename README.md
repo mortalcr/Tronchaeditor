@@ -18,7 +18,7 @@ Download Tronchaditor today and discover how you can boost your productivity wit
 
 ## Screenshots
 
-![App Screenshot](https://i.ibb.co/ss5zW8k/ss-Troncha-Editor.jpg)
+![App Screenshot](https://i.ibb.co/f0d5cbj/ss-Troncha-Editor.jpg)
 
 
 ## Usage
