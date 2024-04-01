@@ -3,6 +3,8 @@ extends Control
 var app_name := "Tronchaditor"
 var current_file := "Untitled"
 var edited := false
+@onready var code_editor: CodeEdit = $MarginContainer/VBoxContainer/CodeEdit;
+@onready var error_box: Label = $MarginContainer/VBoxContainer/ErrorBox;
 
 func _ready():
 	get_tree().set_auto_accept_quit(false)
@@ -25,7 +27,7 @@ func update_window_title():
 func new_file():
 	current_file = "Untitled"
 	update_window_title()
-	$CodeEdit.text = ""
+	code_editor.text = ""
  
 func _on_File_pressed(id):
 	var item_name = $MenuButtonFile.get_popup().get_item_text(id)
@@ -51,7 +53,7 @@ func _on_Help_pressed(id):
 
 func _on_open_file_dialog_file_selected(path):
 	var f = FileAccess.open(path, FileAccess.READ)
-	$CodeEdit.text = f.get_as_text()
+	code_editor.text = f.get_as_text()
 	f.close()
 	current_file = path
 	update_window_title()
@@ -60,12 +62,12 @@ func _on_save_file_dialog_file_selected(path):
 	save_file(path);
 
 func save_file(path: String) -> void:
-	clear_lines()
+	clear_errors()
 	if path == "Untitled":
 		$SaveFileDialog.popup()
 	else:
 		var f = FileAccess.open(path, FileAccess.WRITE)
-		f.store_string($CodeEdit.text)
+		f.store_string(code_editor.text)
 		f.close()
 		edited = false
 		current_file = path
@@ -75,10 +77,6 @@ func save_file(path: String) -> void:
 func _on_code_edit_text_changed():
 	edited = true
 
-
-func _on_tree_exiting():
-	if edited:
-		$ConfirmationDialog.popup()
 		
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -91,21 +89,34 @@ func _notification(what):
 func _on_confirmation_dialog_confirmed():
 	get_tree().quit()
 
-func clear_lines():
-	var line_count = $CodeEdit.get_line_count()
-	for x in range(line_count):
-		$CodeEdit.set_line_background_color(x, Color(0,0,0,0))
+func get_virtual_text_position(line_size: int, start: Vector2) -> Vector2:
+	return Vector2(line_size, start.y);
 
+
+func clear_errors() -> void:
+	for x in range(code_editor.get_line_count()):
+		code_editor.set_line_background_color(x, Color(0, 0, 0, 0))
+	error_box.text = "";
+
+
+func report_error(filename: String, column: int, line: int, message: String) -> void:
+	var ln = max(0, line-1)
+	code_editor.set_line_background_color(ln, code_editor.colors.error);
+	var format_string = "{filename}:{line}:{column}: {message}\n";
+	var actual_string = format_string.format({"filename": filename.get_file(), "line": line, "column": column, "message": message});
+	error_box.text += actual_string;
+
+const PARSE_ERROR = 1;
 func _on_button_pressed():
-	save_file(current_file)
-	var args = ["-file", current_file, "-json-output"]
-	var output = []
-	# NOTE: this piece of shit will not work unless minigo if found on the system path
-	var status = OS.execute("minigo", PackedStringArray(args), output, true)
-	clear_lines()
-	if status != 0:
-		var error_data = JSON.parse_string(output[0])
-		for error in error_data:
-			$CodeEdit.set_line_background_color(error.line -1 ,$CodeEdit.colors.error)
-	else:
-		print(output)
+	clear_errors();
+	save_file(current_file);
+
+	var args = ["-file", current_file, "-json-output"];
+	var output = [];
+	var status = OS.execute("minigo", PackedStringArray(args), output, true);
+
+	if status == PARSE_ERROR:
+		var error_data = JSON.parse_string(output[0]);
+		if error_data != null:
+			for error in error_data:
+				report_error(error.fileName, error.column, error.line, error.message);
