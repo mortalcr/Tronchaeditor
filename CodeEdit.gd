@@ -76,9 +76,10 @@ func _ready():
 	var code_highlighter: CodeHighlighter = CodeHighlighter.new()
 	code_highlighter.number_color = colors.number
 	code_highlighter.function_color = colors.function
+	code_highlighter.member_variable_color = colors.member
 	syntax_highlighter = code_highlighter
 	code_highlighter.symbol_color = colors.punctuation
 	for keyword in keywords:
 		code_highlighter.add_keyword_color(keyword,keywords[keyword])
 	for region in regions:
-		code_highlighter.add_color_region(region.start,region.end, region.color, region.inline)
+		code_highlighter.add_color_region(region.start, region.end, region.color, region.inline)
