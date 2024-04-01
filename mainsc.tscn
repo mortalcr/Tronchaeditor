@@ -63,12 +63,14 @@ size = Vector2i(500, 500)
 ok_button_text = "Open"
 file_mode = 0
 access = 2
+filters = PackedStringArray("*.minigo ; Minigo Source")
 
 [node name="SaveFileDialog" type="FileDialog" parent="."]
 position = Vector2i(50, 70)
 size = Vector2i(500, 500)
 ok_button_text = "Guardar"
 access = 2
+filters = PackedStringArray("*.minigo ; Minigo Source")
 
 [node name="MenuButtonFile" type="MenuButton" parent="."]
 layout_mode = 0
