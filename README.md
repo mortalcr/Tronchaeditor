@@ -47,7 +47,7 @@ You may need to restart any open command prompts or applications for the changes
 
 ***bash***
 
-    export PATH=/path/to/minigo:$PATH
+    sudo ln -s /path/to/minigo/minigo /usr/local/bin/minigo
 
 *   Save the file and run the following command to apply the changes:
   
