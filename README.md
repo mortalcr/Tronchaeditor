@@ -15,6 +15,7 @@ Tronchaditor is a development environment designed specifically for MiniGo Progr
 Advanced syntax highlighting: Highlight your code syntax for better readability and understanding.
 Intuitive project management: Organize your projects efficiently and easily access your files and resources.
 Download Tronchaditor today and discover how you can boost your productivity with MiniGo Programming Language and Tronchaditor.
+
 ## Screenshots
 
 ![App Screenshot](https://i.ibb.co/ss5zW8k/ss-Troncha-Editor.jpg)
