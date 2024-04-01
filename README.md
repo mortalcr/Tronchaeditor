@@ -4,7 +4,7 @@
 **MiniGo CodeEditor**
 
 
-![Logo] (https://i.ibb.co/kHr5kJf/Tronchaeditor-Logo-1.png")
+![Logo](https://i.ibb.co/kHr5kJf/Tronchaeditor-Logo-1.png")
 
 
 ## About
@@ -17,7 +17,7 @@ Intuitive project management: Organize your projects efficiently and easily acce
 Download Tronchaditor today and discover how you can boost your productivity with MiniGo Programming Language and Tronchaditor.
 ## Screenshots
 
-![App Screenshot] (https://i.ibb.co/ss5zW8k/ss-Troncha-Editor.jpg)
+![App Screenshot](https://i.ibb.co/ss5zW8k/ss-Troncha-Editor.jpg)
 
 
 ## Usage
@@ -58,8 +58,8 @@ You may need to restart any open command prompts or applications for the changes
 Launch TronchaEditor and start coding in MiniGo!
 ## Authors
 
-- [@mortalcr] (https://www.github.com/mortalcr)
-- [@zSnails] (https://www.github.com/zSnails)
+- [@mortalcr](https://www.github.com/mortalcr)
+- [@zSnails](https://www.github.com/zSnails)
 
 
 ## License
