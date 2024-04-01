@@ -1,16 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdsmabfqhqgdx"]
+[gd_scene load_steps=5 format=3 uid="uid://bdsmabfqhqgdx"]
 
 [ext_resource type="Theme" uid="uid://b56nihqwkma5t" path="res://FTheme.tres" id="1_chper"]
 [ext_resource type="Script" path="res://app.gd" id="1_ncsvl"]
 [ext_resource type="Script" path="res://CodeEdit.gd" id="3_v67kt"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_1k7l3"]
-
-[sub_resource type="SystemFont" id="SystemFont_mgw81"]
-font_names = PackedStringArray("Monospace")
-
-[sub_resource type="Theme" id="Theme_id1ru"]
-CodeEdit/fonts/font = SubResource("SystemFont_mgw81")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -29,33 +23,44 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.0862745, 0.0862745, 0.113725, 1)
+metadata/_edit_use_anchors_ = true
 
-[node name="CodeEdit" type="CodeEdit" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = 40.0
-offset_right = -6.0
-offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 39
+theme_override_constants/margin_right = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="CodeEdit" type="CodeEdit" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(220.715, 137.935)
+layout_mode = 2
+size_flags_vertical = 3
 theme = ExtResource("1_chper")
 highlight_all_occurrences = true
 highlight_current_line = true
-gutters_draw_bookmarks = true
-gutters_draw_executing_lines = true
 gutters_draw_line_numbers = true
-gutters_zero_pad_line_numbers = true
-gutters_draw_fold_gutter = true
 script = ExtResource("3_v67kt")
+
+[node name="ErrorBox" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_chper")
+vertical_alignment = 1
+clip_text = true
 
 [node name="OpenFileDialog" type="FileDialog" parent="."]
 title = "Open a File"
 position = Vector2i(50, 70)
 size = Vector2i(500, 500)
-ok_button_text = "Abrir"
+ok_button_text = "Open"
 file_mode = 0
 access = 2
 
@@ -97,12 +102,12 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -41.0
+offset_left = -48.0
 offset_top = 5.0
-offset_right = -9.0
+offset_right = -16.0
 offset_bottom = 36.0
 grow_horizontal = 0
-theme = SubResource("Theme_id1ru")
+theme = ExtResource("1_chper")
 text = "▶"
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
@@ -111,7 +116,7 @@ size = Vector2i(485, 100)
 dialog_text = "No has guardado el archivo, seguro que quieres continuar?"
 
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
-[connection signal="text_changed" from="CodeEdit" to="." method="_on_code_edit_text_changed"]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/CodeEdit" to="." method="_on_code_edit_text_changed"]
 [connection signal="file_selected" from="OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]
 [connection signal="file_selected" from="SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
