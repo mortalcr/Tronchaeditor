@@ -7,9 +7,14 @@
 ![Logo](https://i.ibb.co/kHr5kJf/Tronchaeditor-Logo-1.png")
 
 
+## Download
+
+To download `Tronchaeditor` go to the [releases](https://github.com/mortalcr/Tronchaeditor/releases) section
+
 ## About
 
 Tronchaeditor is a development environment designed specifically for MiniGo Programming Language, a programming language inspired by Golang but optimized for more specific and agile tasks. With Tronchaeditor, developers can enjoy a smooth and efficient coding experience, thanks to its intuitive features and seamless integration with the unique functionalities of MiniGo Programming Language.
+
 ## Features
 
 Advanced syntax highlighting: Highlight your code syntax for better readability and understanding.
