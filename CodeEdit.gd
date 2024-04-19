@@ -136,7 +136,7 @@ func _ready():
 		keywords = ["func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "complex64", "complex128", "float32", "float64", "string", "bool", "error"]
 
 		for words in keywords:
-			if words.begins_with(words[0]) and word.is_subsequence_of(words):  # Check only the first character for efficiency
+			if word.begins_with(words[0]) and words.is_subsequence_of(words): 
 				if words in completions:
 					add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, words, completions[words])
 		update_code_completion_options(false)
