@@ -3,6 +3,8 @@ extends Control
 var app_name := "Tronchaditor"
 var current_file := "Untitled"
 var edited := false
+var changed := false
+var string_array = PackedStringArray(["func", "print"])
 @onready var code_editor: CodeEdit = $MarginContainer/VBoxContainer/CodeEdit;
 @onready var error_box: Label = $MarginContainer/VBoxContainer/ErrorBox;
 
@@ -20,6 +22,7 @@ func _ready():
 	$MenuButtonHelp.get_popup().add_item("Godot Website")
 	$MenuButtonHelp.get_popup().add_item("About")
 	$MenuButtonHelp.get_popup().id_pressed.connect(_on_Help_pressed)
+	
 
 func update_window_title():
 	DisplayServer.window_set_title(app_name + " - " + current_file.get_file())
@@ -77,7 +80,7 @@ func save_file(path: String) -> void:
 func _on_code_edit_text_changed():
 	edited = true
 
-		
+
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		if edited:

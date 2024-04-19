@@ -1,5 +1,7 @@
 extends CodeEdit
 
+var changed := false
+
 var colors = {
 	"keyword": to_color("#957FB8"),
 	"special_keyword": to_color("#FF5D62"),
@@ -72,7 +74,73 @@ var regions = [{
 func to_color(color: String) -> Color:
 	return Color.from_string(color, "#ff0000");
 
+
+
 func _ready():
+	code_completion_enabled = true
+	text_changed.connect(func():
+		request_code_completion()
+	)
+	code_completion_requested.connect(func():
+		var text_for_completion = get_text_for_code_completion()
+		var completion_index = text_for_completion.find(char(0xFFFF))
+		var last_space = text_for_completion.rfind(" ", completion_index)
+		var word = ""
+		if last_space > -1:
+			word = text_for_completion.substr(last_space + 1, completion_index - last_space - 1)
+		else:
+			word = text_for_completion.substr(0, completion_index)
+		word = word.strip_edges()
+		var completions = {
+			"func": "func FuncName() {};",
+			"main": "func main() {};",
+			"return": "return",
+			"if": "if {};",
+			"else": "else {};",
+			"package": "package",
+			"var": "var",
+			"const": "const",
+			"switch": "switch() {};",
+			"continue": "continue",
+			"break": "break",
+			"for": "for ; ; {};",
+			"type": "type Name {};",
+			"struct": "struct {}",
+			"default": "default",
+			"case": "case",
+			"print": "print();",
+			"println": "println();",
+			"append": "append();",
+			"cap": "cap();",
+			"len": "len();",
+			"panic": "panic();",
+			"int": "int",
+			"int8": "int8",
+			"int16": "int16",
+			"int32": "int32",
+			"int64": "int64",
+			"uint": "uint",
+			"uint8": "uint8",
+			"uint16": "uint16",
+			"uint32": "uint32",
+			"uint64": "uint64",
+			"complex64": "complex64",
+			"complex128": "complex128",
+			"float32": "float32",
+			"float64": "float64",
+			"string": "string",
+			"bool": "bool",
+			"error": "error();",
+		}
+
+		keywords = ["func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "complex64", "complex128", "float32", "float64", "string", "bool", "error"]
+
+		for words in keywords:
+			if words.begins_with(words[0]) and word.is_subsequence_of(words):  # Check only the first character for efficiency
+				if words in completions:
+					add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, words, completions[words])
+		update_code_completion_options(false)
+	)
 	var code_highlighter: CodeHighlighter = CodeHighlighter.new()
 	code_highlighter.number_color = colors.number
 	code_highlighter.function_color = colors.function
@@ -83,3 +151,4 @@ func _ready():
 		code_highlighter.add_keyword_color(keyword,keywords[keyword])
 	for region in regions:
 		code_highlighter.add_color_region(region.start, region.end, region.color, region.inline)
+

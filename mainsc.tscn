@@ -47,6 +47,8 @@ theme = ExtResource("1_chper")
 highlight_all_occurrences = true
 highlight_current_line = true
 gutters_draw_line_numbers = true
+indent_automatic = true
+auto_brace_completion_enabled = true
 script = ExtResource("3_v67kt")
 
 [node name="ErrorBox" type="Label" parent="MarginContainer/VBoxContainer"]
@@ -60,7 +62,7 @@ clip_text = true
 title = "Open a File"
 position = Vector2i(50, 70)
 size = Vector2i(500, 500)
-ok_button_text = "Open"
+ok_button_text = "Abrir"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.minigo ; Minigo Source")
