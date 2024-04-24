@@ -1,8 +1,4 @@
 # Godot 4+ specific ignores
 .godot/
 *.minigo
-<<<<<<< HEAD
 build/
-=======
-build/
->>>>>>> 9df29434eae25262afd818890f922f783dd823cd
