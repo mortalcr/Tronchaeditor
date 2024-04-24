@@ -133,7 +133,7 @@ func _ready():
 			"error": "error();",
 		}
 
-		keywords = ["func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "complex64", "complex128", "float32", "float64", "string", "bool", "error"]
+		keywords = ["main","func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "complex64", "complex128", "float32", "float64", "string", "bool", "error"]
 
 		for words in keywords:
 			if word.begins_with(words[0]) and words.is_subsequence_of(words): 
