@@ -74,9 +74,7 @@ var regions = [{
 func to_color(color: String) -> Color:
 	return Color.from_string(color, "#ff0000");
 
-
-
-func _ready():
+func code_completion():
 	code_completion_enabled = true
 	text_changed.connect(func():
 		request_code_completion()
@@ -88,8 +86,14 @@ func _ready():
 		var word = ""
 		if last_space > -1:
 			word = text_for_completion.substr(last_space + 1, completion_index - last_space - 1)
+			var last_newline = word.rfind("\n")
+			if last_newline > -1:
+				word = word.substr(last_newline + 1)
 		else:
 			word = text_for_completion.substr(0, completion_index)
+			var last_newline = word.rfind("\n")
+			if last_newline > -1:
+				word = word.substr(last_newline + 1)
 		word = word.strip_edges()
 		var completions = {
 			"func": "func FuncName() {};",
@@ -133,7 +137,7 @@ func _ready():
 			"error": "error();",
 		}
 
-		keywords = ["main","func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "complex64", "complex128", "float32", "float64", "string", "bool", "error"]
+		keywords = ["func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "complex64", "complex128", "float32", "float64", "string", "bool", "error"]
 
 		for words in keywords:
 			if word.begins_with(words[0]) and words.is_subsequence_of(words): 
@@ -141,6 +145,9 @@ func _ready():
 					add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, words, completions[words])
 		update_code_completion_options(false)
 	)
+
+func _ready():
+	code_completion()
 	var code_highlighter: CodeHighlighter = CodeHighlighter.new()
 	code_highlighter.number_color = colors.number
 	code_highlighter.function_color = colors.function
@@ -151,4 +158,3 @@ func _ready():
 		code_highlighter.add_keyword_color(keyword,keywords[keyword])
 	for region in regions:
 		code_highlighter.add_color_region(region.start, region.end, region.color, region.inline)
-
