@@ -107,7 +107,7 @@ func code_completion():
 			"package": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "package", "image": VARIABLE},
 			"var": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "var", "image": VARIABLE},
 			"const": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "const", "image": VARIABLE},
-			"switch": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "switch() {};", "image": VARIABLE},
+			"switch": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "switch {};", "image": VARIABLE},
 			"continue": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "continue", "image": VARIABLE},
 			"break": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "break", "image": VARIABLE},
 			"for": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "for ; ; {};", "image": VARIABLE},
@@ -126,10 +126,9 @@ func code_completion():
 			"bool": {"kind": CodeEdit.KIND_CLASS, "insert": "bool", "image": VARIABLE},
 			"error": {"kind": CodeEdit.KIND_CLASS, "insert": "error", "image": VARIABLE},
 		}
-
-		keywords = ["func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int","float", "string", "bool", "error"] 
-		for words in keywords:
-			if word.begins_with(words[0]) and words.is_subsequence_of(words): 
+		
+		for words in completions:
+			if word.begins_with(words[0]) and word.is_subsequence_of(words): 
 				if words in completions:
 					add_code_completion_option(completions[words]["kind"], words, completions[words]["insert"],to_color("#dcd7ba"), completions[words]["image"])
 		update_code_completion_options(false)
