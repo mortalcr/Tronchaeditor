@@ -47,6 +47,7 @@ var keywords = {
 	"uint64": colors["type"],
 	"complex64": colors["type"],
 	"complex128": colors["type"],
+	"float": colors["type"],
 	"float32": colors["type"],
 	"float64": colors["type"],
 	"string": colors["type"],
@@ -74,6 +75,9 @@ var regions = [{
 func to_color(color: String) -> Color:
 	return Color.from_string(color, "#ff0000");
 
+const FUNCTION = preload("res://function.png")
+const VARIABLE = preload("res://variable.png")
+
 func code_completion():
 	code_completion_enabled = true
 	text_changed.connect(func():
@@ -96,53 +100,38 @@ func code_completion():
 				word = word.substr(last_newline + 1)
 		word = word.strip_edges()
 		var completions = {
-			"func": "func FuncName() {};",
-			"main": "func main() {};",
-			"return": "return",
-			"if": "if {};",
-			"else": "else {};",
-			"package": "package",
-			"var": "var",
-			"const": "const",
-			"switch": "switch() {};",
-			"continue": "continue",
-			"break": "break",
-			"for": "for ; ; {};",
-			"type": "type Name {};",
-			"struct": "struct {}",
-			"default": "default",
-			"case": "case",
-			"print": "print();",
-			"println": "println();",
-			"append": "append();",
-			"cap": "cap();",
-			"len": "len();",
-			"panic": "panic();",
-			"int": "int",
-			"int8": "int8",
-			"int16": "int16",
-			"int32": "int32",
-			"int64": "int64",
-			"uint": "uint",
-			"uint8": "uint8",
-			"uint16": "uint16",
-			"uint32": "uint32",
-			"uint64": "uint64",
-			"complex64": "complex64",
-			"complex128": "complex128",
-			"float32": "float32",
-			"float64": "float64",
-			"string": "string",
-			"bool": "bool",
-			"error": "error();",
+			"func": {"kind": CodeEdit.KIND_FUNCTION, "insert": "func FuncName() {};", "image": FUNCTION},
+			"return": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "return", "image": VARIABLE},
+			"if": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "if {};", "image": VARIABLE},
+			"else": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "else {};", "image": VARIABLE},
+			"package": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "package", "image": VARIABLE},
+			"var": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "var", "image": VARIABLE},
+			"const": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "const", "image": VARIABLE},
+			"switch": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "switch() {};", "image": VARIABLE},
+			"continue": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "continue", "image": VARIABLE},
+			"break": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "break", "image": VARIABLE},
+			"for": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "for ; ; {};", "image": VARIABLE},
+			"type": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "type Name {};", "image": VARIABLE},
+			"struct": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "struct {}", "image": VARIABLE},
+			"default": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "default", "image": VARIABLE},
+			"case": {"kind": CodeEdit.KIND_PLAIN_TEXT, "insert": "case", "image": VARIABLE},
+			"print": {"kind": CodeEdit.KIND_FUNCTION, "insert": "print();", "image": FUNCTION},
+			"println": {"kind": CodeEdit.KIND_FUNCTION, "insert": "println();", "image": FUNCTION},
+			"append": {"kind": CodeEdit.KIND_FUNCTION, "insert": "append();", "image": FUNCTION},
+			"cap": {"kind": CodeEdit.KIND_FUNCTION, "insert": "cap();", "image": FUNCTION},
+			"len": {"kind": CodeEdit.KIND_FUNCTION, "insert": "len();", "image": FUNCTION},
+			"panic": {"kind": CodeEdit.KIND_FUNCTION, "insert": "panic();", "image": FUNCTION},
+			"int": {"kind": CodeEdit.KIND_CLASS, "insert": "int", "image": VARIABLE},
+			"string": {"kind": CodeEdit.KIND_CLASS, "insert": "string", "image": VARIABLE},
+			"bool": {"kind": CodeEdit.KIND_CLASS, "insert": "bool", "image": VARIABLE},
+			"error": {"kind": CodeEdit.KIND_CLASS, "insert": "error", "image": VARIABLE},
 		}
 
-		keywords = ["func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int", "int8", "int16", "int32", "int64", "uint", "uint8", "uint16", "uint32", "uint64", "complex64", "complex128", "float32", "float64", "string", "bool", "error"]
-
+		keywords = ["func", "return", "if", "else", "package", "var", "const", "switch", "continue", "break", "for", "type", "struct", "default", "case", "print", "println", "append", "cap", "len", "panic", "int","float", "string", "bool", "error"] 
 		for words in keywords:
 			if word.begins_with(words[0]) and words.is_subsequence_of(words): 
 				if words in completions:
-					add_code_completion_option(CodeEdit.KIND_PLAIN_TEXT, words, completions[words])
+					add_code_completion_option(completions[words]["kind"], words, completions[words]["insert"],to_color("#dcd7ba"), completions[words]["image"])
 		update_code_completion_options(false)
 	)
 
