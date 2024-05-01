@@ -23,7 +23,7 @@ Download tronchaeditor today and discover how you can boost your productivity wi
 
 ## Screenshots
 
-![App Screenshot](https://i.ibb.co/KhPyMCt/screenshot.png)
+![App Screenshot](https://i.ibb.co/JrwH2fy/screenshot.png)
 
 
 ## Usage
