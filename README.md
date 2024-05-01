@@ -49,17 +49,10 @@ You may need to restart any open command prompts or applications for the changes
 #### Mac/Linux:
 
 * Open a terminal.
-* Edit your shell's configuration file (e.g., ~/.bashrc for Bash) and add the following line:
 
 ***bash***
 
     sudo ln -s /path/to/minigo/minigo /usr/local/bin/minigo
-
-*   Save the file and run the following command to apply the changes:
-  
-  ***bash***
-
-    source ~/.bashrc
 
 Launch TronchaEditor and start coding in MiniGo!
 ## Authors
