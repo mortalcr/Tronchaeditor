@@ -27,6 +27,7 @@ func update_window_title():
 	DisplayServer.window_set_title(app_name + " - " + current_file.get_file())
 
 func new_file():
+	clear_errors()
 	current_file = "Untitled"
 	update_window_title()
 	code_editor.text = ""
@@ -54,6 +55,7 @@ func _on_Help_pressed(id):
 		$AcceptDialog.popup()
 
 func _on_open_file_dialog_file_selected(path):
+	clear_errors()
 	var f = FileAccess.open(path, FileAccess.READ)
 	code_editor.text = f.get_as_text()
 	f.close()
