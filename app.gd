@@ -6,12 +6,11 @@ var edited := false
 var changed := false
 var string_array = PackedStringArray(["func", "print"])
 @onready var code_editor: CodeEdit = $MarginContainer/VBoxContainer/CodeEdit;
-@onready var error_box: Label = $MarginContainer/VBoxContainer/ErrorBox;
+@onready var labela: Label = $MarginContainer/VBoxContainer/ScrollContainer/Label;
 
 func _ready():
 	get_tree().set_auto_accept_quit(false)
 	update_window_title()
-	
 	$MenuButtonFile.get_popup().add_item("New File")
 	$MenuButtonFile.get_popup().add_item("Open File")
 	$MenuButtonFile.get_popup().add_item("Save")
@@ -100,7 +99,7 @@ func get_virtual_text_position(line_size: int, start: Vector2) -> Vector2:
 func clear_errors() -> void:
 	for x in range(code_editor.get_line_count()):
 		code_editor.set_line_background_color(x, Color(0, 0, 0, 0))
-	error_box.text = "";
+	labela.text = "";
 
 
 func report_error(filename: String, column: int, line: int, message: String) -> void:
@@ -108,19 +107,33 @@ func report_error(filename: String, column: int, line: int, message: String) -> 
 	code_editor.set_line_background_color(ln, code_editor.colors.error);
 	var format_string = "{filename}:{line}:{column}: {message}\n";
 	var actual_string = format_string.format({"filename": filename.get_file(), "line": line, "column": column, "message": message});
-	error_box.text += actual_string;
+	labela.text += actual_string;
 
 const PARSE_ERROR = 1;
 func _on_button_pressed():
 	clear_errors();
 	save_file(current_file);
-
-	var args = ["-file", current_file, "-json-output"];
+	
+	var args = ["build", current_file, "--json"];
 	var output = [];
-	var status = OS.execute("minigo", PackedStringArray(args), output, true);
-
+	var status = OS.execute("minigo", PackedStringArray(args), output, true, false);
 	if status == PARSE_ERROR:
 		var error_data = JSON.parse_string(output[0]);
 		if error_data != null:
 			for error in error_data:
 				report_error(error.fileName, error.column, error.line, error.message);
+
+
+func _on_button_pressed_run():
+	clear_errors();
+	save_file(current_file);
+	var args = ["run", current_file, "--json"];
+	var output = [];
+	var status = OS.execute("minigo", PackedStringArray(args), output, true, false);
+	if status == PARSE_ERROR:
+		var error_data = JSON.parse_string(output[0]);
+		if error_data != null:
+			for error in error_data:
+				report_error(error.fileName, error.column, error.line, error.message);
+	else:
+		labela.text += output[0]

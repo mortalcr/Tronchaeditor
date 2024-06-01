@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bdsmabfqhqgdx"]
+[gd_scene load_steps=6 format=3 uid="uid://bdsmabfqhqgdx"]
 
 [ext_resource type="Theme" uid="uid://b56nihqwkma5t" path="res://FTheme.tres" id="1_chper"]
 [ext_resource type="Script" path="res://app.gd" id="1_ncsvl"]
 [ext_resource type="Script" path="res://CodeEdit.gd" id="3_v67kt"]
+[ext_resource type="FontFile" uid="uid://ds8ekaib1prhm" path="res://FiraCodeNerdFont-Regular.ttf" id="4_i7fc6"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_1k7l3"]
 
@@ -52,11 +53,34 @@ auto_brace_completion_enabled = true
 script = ExtResource("3_v67kt")
 
 [node name="ErrorBox" type="Label" parent="MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("1_chper")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+vertical_alignment = 1
+clip_text = true
+
+[node name="SucessBox" type="Label" parent="MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 1
 theme = ExtResource("1_chper")
 vertical_alignment = 1
 clip_text = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("4_i7fc6")
+horizontal_alignment = 3
+vertical_alignment = 3
+autowrap_mode = 1
+justification_flags = 128
 
 [node name="OpenFileDialog" type="FileDialog" parent="."]
 title = "Open a File"
@@ -119,10 +143,24 @@ initial_position = 2
 size = Vector2i(485, 100)
 dialog_text = "No has guardado el archivo, seguro que quieres continuar?"
 
+[node name="Button2" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -76.0
+offset_top = 6.0
+offset_right = -44.0
+offset_bottom = 37.0
+grow_horizontal = 0
+theme = ExtResource("1_chper")
+text = "⚙️"
+
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="text_changed" from="MarginContainer/VBoxContainer/CodeEdit" to="." method="_on_code_edit_text_changed"]
 [connection signal="file_selected" from="OpenFileDialog" to="." method="_on_open_file_dialog_file_selected"]
 [connection signal="file_selected" from="SaveFileDialog" to="." method="_on_save_file_dialog_file_selected"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed_run"]
 [connection signal="close_requested" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_close_requested"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_pressed"]
